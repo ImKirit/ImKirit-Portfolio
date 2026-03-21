@@ -18,6 +18,9 @@ Portfolio/
 - Silver accents always fixed; base color animates on theme switch
 - Scroll-triggered reveal animations (IntersectionObserver)
 - Alternating left/right project cards that slide in on scroll
+- EN/DE language toggle (🇺🇸/🇩🇪) in nav — all text via data-i18n + translations object, fade animation on switch
+- "You want your own Portfolio? Let me know!" banner above contact links
+- "& more" section at bottom of projects
 
 ## Hosting
 - Target: portfolio.kirit.xyz/imkirit

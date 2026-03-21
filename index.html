@@ -196,7 +196,7 @@
       align-items: center;
       gap: 20px;
       padding: 11px 22px;
-      width: min(920px, calc(100vw - 36px));
+      width: min(960px, calc(100vw - 36px));
       border-radius: 18px;
     }
 
@@ -252,6 +252,38 @@
     .theme-btn[data-theme="aurora"] { background: linear-gradient(135deg,#500fa0,#107060); }
     .theme-btn[data-theme="ember"]  { background: linear-gradient(135deg,#c02808,#e07800); }
 
+    /* Language toggle */
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+    .lang-btn:hover { transform: scale(1.12); background: rgba(255,255,255,0.16); }
+
+    /* i18n text fade transition */
+    [data-i18n] {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    [data-i18n].lang-out {
+      opacity: 0 !important;
+      transform: translateY(-7px) !important;
+      pointer-events: none;
+    }
+    [data-i18n].lang-in {
+      opacity: 0;
+      transform: translateY(7px);
+    }
+
     /* ─── Hero ─── */
     #hero {
       min-height: 100vh;
@@ -283,6 +315,7 @@
       border-radius: 50%;
       background: var(--silver);
       animation: blink 2.2s infinite;
+      flex-shrink: 0;
     }
     @keyframes blink {
       0%, 100% { opacity: 1; transform: scale(1); }
@@ -556,6 +589,55 @@
       transition: background 0.4s;
     }
 
+    /* ─── Projects More ─── */
+    .projects-more {
+      text-align: center;
+      padding: 60px 24px 20px;
+      animation: fadeUp 0.9s ease both;
+      animation-delay: 0.2s;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .projects-more-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .projects-more-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--silver);
+      opacity: 0.5;
+      animation: dotPulse 2s infinite ease-in-out;
+    }
+    .projects-more-dots span:nth-child(2) { animation-delay: 0.3s; }
+    .projects-more-dots span:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.25; transform: scale(0.85); }
+      50%       { opacity: 0.8;  transform: scale(1.2); }
+    }
+    .projects-more-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.04em;
+      color: var(--text-1);
+      opacity: 0.18;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .projects-more-desc {
+      color: var(--text-3);
+      font-size: 0.92rem;
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
     /* ─── Hobbies ─── */
     .hobbies-grid {
       display: grid;
@@ -587,10 +669,41 @@
     #contact { padding: 100px 24px 170px; }
     #contact .container { text-align: center; max-width: 680px; }
 
+    /* Portfolio offer banner */
+    .portfolio-offer-banner {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 16px;
+      margin: 30px auto 0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-2);
+    }
+    .portfolio-offer-emoji { font-size: 1.1rem; }
+    .portfolio-offer-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.93rem;
+      color: var(--text-1);
+    }
+    .portfolio-offer-arrow {
+      font-size: 1rem;
+      color: var(--silver);
+      display: inline-block;
+      animation: arrowBounce 1.6s infinite ease-in-out;
+    }
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(5px); }
+    }
+
     .contact-card {
       padding: 56px 44px;
       border-radius: 30px;
-      margin-top: 52px;
+      margin-top: 36px;
     }
     .contact-email {
       font-family: 'Syne', sans-serif;
@@ -694,11 +807,11 @@
   <nav class="glass">
     <a href="#" class="nav-logo">Im<span>Kirit</span></a>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#hobbies">Life</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+      <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+      <li><a href="#hobbies" data-i18n="nav_life">Life</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
     </ul>
     <div class="theme-switcher glass">
       <button class="theme-btn active" data-theme="silver" title="Silver"></button>
@@ -707,25 +820,26 @@
       <button class="theme-btn" data-theme="aurora" title="Aurora"></button>
       <button class="theme-btn" data-theme="ember"  title="Ember"></button>
     </div>
+    <button class="lang-btn" id="langBtn" title="Switch language">🇺🇸</button>
   </nav>
 
   <!-- ─── Hero ─── -->
   <section id="hero">
     <div class="hero-floats">
-      <div class="float-chip glass">☕ Fueled by coffee</div>
-      <div class="float-chip glass">⚡ Open for freelance</div>
-      <div class="float-chip glass">🎮 Full-time builder</div>
-      <div class="float-chip glass">🤝 Open to collabs</div>
+      <div class="float-chip glass"><span data-i18n="chip_1">☕ Fueled by coffee</span></div>
+      <div class="float-chip glass"><span data-i18n="chip_2">⚡ Open for freelance</span></div>
+      <div class="float-chip glass"><span data-i18n="chip_3">🎮 Full-time builder</span></div>
+      <div class="float-chip glass"><span data-i18n="chip_4">🤝 Open to collabs</span></div>
     </div>
     <div class="hero-inner">
-      <div class="hero-badge glass">Developer &amp; Creator · 18 yrs</div>
+      <div class="hero-badge glass" data-i18n="hero_badge">Developer &amp; Creator · 18 yrs</div>
       <h1 class="hero-name">ImKirit</h1>
       <p class="hero-aka">aka. Bora Duman</p>
-      <p class="hero-tagline">
+      <p class="hero-tagline" data-i18n="hero_tagline">
         Building digital things — from private Minecraft servers to crypto bots. I turn ideas into software that actually works.
       </p>
       <a href="#projects" class="hero-cta glass">
-        See my work
+        <span data-i18n="hero_cta">See my work</span>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -737,46 +851,46 @@
   <section id="about">
     <div class="container">
       <div>
-        <p class="section-label reveal">About Me</p>
-        <h2 class="section-title reveal">Developer.<br>Creator.<br>Problem Solver.</h2>
-        <p class="section-desc reveal">
+        <p class="section-label reveal" data-i18n="about_label">About Me</p>
+        <h2 class="section-title reveal" data-i18n="about_title">Developer.<br>Creator.<br>Problem Solver.</h2>
+        <p class="section-desc reveal" data-i18n="about_desc">
           I'm Bora — 18-year-old freelance developer from Germany. I build things on the web, automate the boring stuff, and occasionally run a private Minecraft server. If it can be coded, I've probably tried to break it first.
         </p>
         <div class="about-stats reveal-stagger">
           <div class="stat-card glass">
             <div class="stat-number">4<span>+</span></div>
-            <div class="stat-label">Years coding</div>
+            <div class="stat-label" data-i18n="stat_years">Years coding</div>
           </div>
           <div class="stat-card glass">
             <div class="stat-number">10<span>+</span></div>
-            <div class="stat-label">Projects built</div>
+            <div class="stat-label" data-i18n="stat_projects">Projects built</div>
           </div>
           <div class="stat-card glass">
             <div class="stat-number">7<span>+</span></div>
-            <div class="stat-label">Languages</div>
+            <div class="stat-label" data-i18n="stat_langs">Languages</div>
           </div>
           <div class="stat-card glass">
             <div class="stat-number">∞</div>
-            <div class="stat-label">New ideas</div>
+            <div class="stat-label" data-i18n="stat_ideas">New ideas</div>
           </div>
         </div>
       </div>
       <div class="about-visual">
         <div class="about-card glass reveal">
-          <div class="about-card-title">Specialization</div>
-          <div class="about-card-text">
+          <div class="about-card-title" data-i18n="card_spec_title">Specialization</div>
+          <div class="about-card-text" data-i18n="card_spec_text">
             Backend systems, automation bots, game server plugins, and full-stack web development. I love building tools that solve real problems.
           </div>
         </div>
         <div class="about-card glass reveal">
-          <div class="about-card-title">Currently working on</div>
-          <div class="about-card-text">
+          <div class="about-card-title" data-i18n="card_wip_title">Currently working on</div>
+          <div class="about-card-text" data-i18n="card_wip_text">
             Running a (yet) private Minecraft server, developing custom plugins, and working on web projects. Open for freelance commissions and interesting projects.
           </div>
         </div>
         <div class="about-card glass reveal">
-          <div class="about-card-title">When not coding</div>
-          <div class="about-card-text">
+          <div class="about-card-title" data-i18n="card_life_title">When not coding</div>
+          <div class="about-card-text" data-i18n="card_life_text">
             Gaming, going outside, hanging out with friends, and secretly planning the next side project at 2am.
           </div>
         </div>
@@ -788,50 +902,50 @@
   <section id="skills">
     <div class="container">
       <div class="skills-header reveal">
-        <p class="section-label">Tech Stack</p>
-        <h2 class="section-title">Languages &amp; Tools</h2>
-        <p class="section-desc">Everything I use to bring projects to life.</p>
+        <p class="section-label" data-i18n="skills_label">Tech Stack</p>
+        <h2 class="section-title" data-i18n="skills_title">Languages &amp; Tools</h2>
+        <p class="section-desc" data-i18n="skills_desc">Everything I use to bring projects to life.</p>
       </div>
       <div class="skills-grid reveal-stagger">
         <div class="skill-card glass">
           <span class="skill-icon">☕</span>
           <div class="skill-name">Java</div>
-          <div class="skill-level">Minecraft Plugins</div>
+          <div class="skill-level" data-i18n="skill_java_level">Minecraft Plugins</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🐍</span>
           <div class="skill-name">Python</div>
-          <div class="skill-level">Automation & Bots</div>
+          <div class="skill-level" data-i18n="skill_py_level">Automation &amp; Bots</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🌐</span>
           <div class="skill-name">JavaScript</div>
-          <div class="skill-level">Web & Node.js</div>
+          <div class="skill-level" data-i18n="skill_js_level">Web &amp; Node.js</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🔷</span>
           <div class="skill-name">TypeScript</div>
-          <div class="skill-level">Type-safe dev</div>
+          <div class="skill-level" data-i18n="skill_ts_level">Type-safe dev</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🎨</span>
           <div class="skill-name">HTML/CSS</div>
-          <div class="skill-level">Frontend design</div>
+          <div class="skill-level" data-i18n="skill_html_level">Frontend design</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🐘</span>
           <div class="skill-name">PHP</div>
-          <div class="skill-level">Web backend</div>
+          <div class="skill-level" data-i18n="skill_php_level">Web backend</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🗄️</span>
           <div class="skill-name">SQL</div>
-          <div class="skill-level">Databases</div>
+          <div class="skill-level" data-i18n="skill_sql_level">Databases</div>
         </div>
         <div class="skill-card glass">
           <span class="skill-icon">🐳</span>
           <div class="skill-name">Docker</div>
-          <div class="skill-level">Containers</div>
+          <div class="skill-level" data-i18n="skill_docker_level">Containers</div>
         </div>
       </div>
     </div>
@@ -841,9 +955,9 @@
   <section id="projects">
     <div class="container">
       <div class="section-header reveal">
-        <p class="section-label">Work</p>
-        <h2 class="section-title">Projects</h2>
-        <p class="section-desc" style="margin: 0 auto;">Things I've built that I'm proud of.</p>
+        <p class="section-label" data-i18n="projects_label">Work</p>
+        <h2 class="section-title" data-i18n="projects_title">Projects</h2>
+        <p class="section-desc" style="margin: 0 auto;" data-i18n="projects_desc">Things I've built that I'm proud of.</p>
       </div>
 
       <div class="projects-list">
@@ -856,9 +970,9 @@
             </div>
           </div>
           <div class="project-info">
-            <div class="project-tag">Game Server · Private</div>
-            <h3 class="project-name">(Yet) Private MC Server</h3>
-            <p class="project-desc">
+            <div class="project-tag" data-i18n="proj1_tag">Game Server · Private</div>
+            <h3 class="project-name" data-i18n="proj1_name">(Yet) Private MC Server</h3>
+            <p class="project-desc" data-i18n="proj1_desc">
               A custom Minecraft server built from the ground up — currently private. Features a custom economy, sign-based shop system, admin toolbox, and a modular mini-game framework, all via handcrafted plugins.
             </p>
             <div class="project-techs">
@@ -873,9 +987,9 @@
         <!-- Auto BTC Trader -->
         <div class="project-item from-right">
           <div class="project-info">
-            <div class="project-tag">Automation</div>
-            <h3 class="project-name">Auto BTC Trader</h3>
-            <p class="project-desc">
+            <div class="project-tag" data-i18n="proj2_tag">Automation</div>
+            <h3 class="project-name" data-i18n="proj2_name">Auto BTC Trader</h3>
+            <p class="project-desc" data-i18n="proj2_desc">
               Automated Bitcoin trading bot powered by technical analysis and custom indicators. Runs 24/7, analyzes live market data and executes trades based on configurable strategies. No sleep required.
             </p>
             <div class="project-techs">
@@ -900,9 +1014,9 @@
             </div>
           </div>
           <div class="project-info">
-            <div class="project-tag">Bot</div>
-            <h3 class="project-name">MC AFK Bot</h3>
-            <p class="project-desc">
+            <div class="project-tag" data-i18n="proj3_tag">Bot</div>
+            <h3 class="project-name" data-i18n="proj3_name">MC AFK Bot</h3>
+            <p class="project-desc" data-i18n="proj3_desc">
               A Minecraft automation bot that keeps accounts alive and active. Handles anti-AFK detection, basic pathfinding, chat response simulation, and server-specific actions. Set it and forget it.
             </p>
             <div class="project-techs">
@@ -917,9 +1031,9 @@
         <!-- Web Projects -->
         <div class="project-item from-right">
           <div class="project-info">
-            <div class="project-tag">Web Development</div>
-            <h3 class="project-name">Web Projects</h3>
-            <p class="project-desc">
+            <div class="project-tag" data-i18n="proj4_tag">Web Development</div>
+            <h3 class="project-name" data-i18n="proj4_name">Web Projects</h3>
+            <p class="project-desc" data-i18n="proj4_desc">
               A collection of web builds — including a Minecraft stock market simulator, browser-based games, utility tools, and more. Clean frontends, functional backends.
             </p>
             <div class="project-techs">
@@ -936,6 +1050,17 @@
           </div>
         </div>
 
+        <!-- And more -->
+        <div class="projects-more">
+          <div class="projects-more-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <p class="projects-more-title" data-i18n="more_title">& more</p>
+          <p class="projects-more-desc" data-i18n="more_desc">
+            Discord bots, automation scripts, smaller tools and experiments — always building something new.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>
@@ -943,35 +1068,35 @@
   <!-- ─── Hobbies ─── -->
   <section id="hobbies">
     <div class="container">
-      <p class="section-label reveal">Life</p>
-      <h2 class="section-title reveal">Beyond the Screen</h2>
+      <p class="section-label reveal" data-i18n="hobbies_label">Life</p>
+      <h2 class="section-title reveal" data-i18n="hobbies_title">Beyond the Screen</h2>
       <div class="hobbies-grid reveal-stagger">
         <div class="hobby-card glass">
           <span class="hobby-emoji">💻</span>
           <div>
-            <div class="hobby-name">Coding</div>
-            <div class="hobby-desc">Building the next thing nobody asked for but everyone will use</div>
+            <div class="hobby-name" data-i18n="hobby1_name">Coding</div>
+            <div class="hobby-desc" data-i18n="hobby1_desc">Building the next thing nobody asked for but everyone will use</div>
           </div>
         </div>
         <div class="hobby-card glass">
           <span class="hobby-emoji">🎮</span>
           <div>
-            <div class="hobby-name">Gaming</div>
-            <div class="hobby-desc">From Minecraft to whatever's trending — always on the controller</div>
+            <div class="hobby-name" data-i18n="hobby2_name">Gaming</div>
+            <div class="hobby-desc" data-i18n="hobby2_desc">From Minecraft to whatever's trending — always on the controller</div>
           </div>
         </div>
         <div class="hobby-card glass">
           <span class="hobby-emoji">🌿</span>
           <div>
-            <div class="hobby-name">Going outside</div>
-            <div class="hobby-desc">Touching grass occasionally. Turns out it's actually pretty good.</div>
+            <div class="hobby-name" data-i18n="hobby3_name">Going outside</div>
+            <div class="hobby-desc" data-i18n="hobby3_desc">Touching grass occasionally. Turns out it's actually pretty good.</div>
           </div>
         </div>
         <div class="hobby-card glass">
           <span class="hobby-emoji">👥</span>
           <div>
-            <div class="hobby-name">Friends</div>
-            <div class="hobby-desc">Meeting up, vibing, planning world domination (mostly chilling)</div>
+            <div class="hobby-name" data-i18n="hobby4_name">Friends</div>
+            <div class="hobby-desc" data-i18n="hobby4_desc">Meeting up, vibing, planning world domination (mostly chilling)</div>
           </div>
         </div>
       </div>
@@ -981,11 +1106,16 @@
   <!-- ─── Contact ─── -->
   <section id="contact">
     <div class="container">
-      <p class="section-label reveal">Contact</p>
-      <h2 class="section-title reveal">Let's build something.</h2>
-      <p class="section-desc reveal">
+      <p class="section-label reveal" data-i18n="contact_label">Contact</p>
+      <h2 class="section-title reveal" data-i18n="contact_title">Let's build something.</h2>
+      <p class="section-desc reveal" data-i18n="contact_desc">
         Got a project in mind? I'm open for freelance work, collabs, and interesting problems.
       </p>
+      <div class="portfolio-offer-banner glass reveal">
+        <span class="portfolio-offer-emoji">✨</span>
+        <span class="portfolio-offer-text" data-i18n="portfolio_offer">You want your own Portfolio? Let me know!</span>
+        <span class="portfolio-offer-arrow">↓</span>
+      </div>
       <div class="contact-card glass reveal">
         <a href="mailto:contact@kirit.xyz" class="contact-email">contact@kirit.xyz</a>
         <div class="contact-links">
@@ -995,7 +1125,7 @@
             </svg>
             GitHub
           </a>
-          <a href="#" class="contact-link" onclick="navigator.clipboard.writeText('ImKirit'); this.textContent='Copied!'; setTimeout(()=>this.innerHTML='<svg width=\'15\' height=\'15\' viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.079.11 18.1.12 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z\'/></svg> Discord',1500); return false;">
+          <a href="#" class="contact-link" id="discordBtn">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.079.11 18.1.12 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
@@ -1013,12 +1143,196 @@
   </section>
 
   <footer>
-    <p>© 2025 Bora Duman aka. ImKirit — Built with care and caffeine.</p>
+    <p data-i18n="footer_text">© 2026 Bora Duman aka. ImKirit — Built with care and caffeine.</p>
   </footer>
 
 </div>
 
 <script>
+  // ─── Translations ───
+  const translations = {
+    en: {
+      nav_about:      'About',
+      nav_skills:     'Skills',
+      nav_projects:   'Projects',
+      nav_life:       'Life',
+      nav_contact:    'Contact',
+      hero_badge:     'Developer &amp; Creator · 18 yrs',
+      hero_tagline:   'Building digital things — from private Minecraft servers to crypto bots. I turn ideas into software that actually works.',
+      hero_cta:       'See my work',
+      chip_1:         '☕ Fueled by coffee',
+      chip_2:         '⚡ Open for freelance',
+      chip_3:         '🎮 Full-time builder',
+      chip_4:         '🤝 Open to collabs',
+      about_label:    'About Me',
+      about_title:    'Developer.<br>Creator.<br>Problem Solver.',
+      about_desc:     "I'm Bora — 18-year-old freelance developer from Germany. I build things on the web, automate the boring stuff, and occasionally run a private Minecraft server. If it can be coded, I've probably tried to break it first.",
+      stat_years:     'Years coding',
+      stat_projects:  'Projects built',
+      stat_langs:     'Languages',
+      stat_ideas:     'New ideas',
+      card_spec_title:'Specialization',
+      card_spec_text: 'Backend systems, automation bots, game server plugins, and full-stack web development. I love building tools that solve real problems.',
+      card_wip_title: 'Currently working on',
+      card_wip_text:  'Running a (yet) private Minecraft server, developing custom plugins, and working on web projects. Open for freelance commissions and interesting projects.',
+      card_life_title:'When not coding',
+      card_life_text: 'Gaming, going outside, hanging out with friends, and secretly planning the next side project at 2am.',
+      skills_label:   'Tech Stack',
+      skills_title:   'Languages &amp; Tools',
+      skills_desc:    'Everything I use to bring projects to life.',
+      skill_java_level:   'Minecraft Plugins',
+      skill_py_level:     'Automation &amp; Bots',
+      skill_js_level:     'Web &amp; Node.js',
+      skill_ts_level:     'Type-safe dev',
+      skill_html_level:   'Frontend design',
+      skill_php_level:    'Web backend',
+      skill_sql_level:    'Databases',
+      skill_docker_level: 'Containers',
+      projects_label: 'Work',
+      projects_title: 'Projects',
+      projects_desc:  "Things I've built that I'm proud of.",
+      proj1_tag:  'Game Server · Private',
+      proj1_name: '(Yet) Private MC Server',
+      proj1_desc: 'A custom Minecraft server built from the ground up — currently private. Features a custom economy, sign-based shop system, admin toolbox, and a modular mini-game framework, all via handcrafted plugins.',
+      proj2_tag:  'Automation',
+      proj2_name: 'Auto BTC Trader',
+      proj2_desc: 'Automated Bitcoin trading bot powered by technical analysis and custom indicators. Runs 24/7, analyzes live market data and executes trades based on configurable strategies. No sleep required.',
+      proj3_tag:  'Bot',
+      proj3_name: 'MC AFK Bot',
+      proj3_desc: 'A Minecraft automation bot that keeps accounts alive and active. Handles anti-AFK detection, basic pathfinding, chat response simulation, and server-specific actions. Set it and forget it.',
+      proj4_tag:  'Web Development',
+      proj4_name: 'Web Projects',
+      proj4_desc: 'A collection of web builds — including a Minecraft stock market simulator, browser-based games, utility tools, and more. Clean frontends, functional backends.',
+      hobbies_label: 'Life',
+      hobbies_title: 'Beyond the Screen',
+      hobby1_name: 'Coding',
+      hobby1_desc: "Building the next thing nobody asked for but everyone will use",
+      hobby2_name: 'Gaming',
+      hobby2_desc: "From Minecraft to whatever's trending — always on the controller",
+      hobby3_name: 'Going outside',
+      hobby3_desc: "Touching grass occasionally. Turns out it's actually pretty good.",
+      hobby4_name: 'Friends',
+      hobby4_desc: 'Meeting up, vibing, planning world domination (mostly chilling)',
+      contact_label:    'Contact',
+      contact_title:    "Let's build something.",
+      contact_desc:     "Got a project in mind? I'm open for freelance work, collabs, and interesting problems.",
+      portfolio_offer:  'You want your own Portfolio? Let me know!',
+      more_title:       '&amp; more',
+      more_desc:        'Discord bots, automation scripts, smaller tools and experiments — always building something new.',
+      footer_text:      '© 2026 Bora Duman aka. ImKirit — Built with care and caffeine.'
+    },
+    de: {
+      nav_about:      'Über mich',
+      nav_skills:     'Skills',
+      nav_projects:   'Projekte',
+      nav_life:       'Leben',
+      nav_contact:    'Kontakt',
+      hero_badge:     'Entwickler &amp; Creator · 18 J.',
+      hero_tagline:   'Digitale Projekte von Grund auf — vom privaten Minecraft-Server bis zum Krypto-Bot. Ich verwandle Ideen in Software, die wirklich funktioniert.',
+      hero_cta:       'Meine Arbeit',
+      chip_1:         '☕ Läuft auf Kaffee',
+      chip_2:         '⚡ Offen für Freelance',
+      chip_3:         '🎮 Vollzeit am Bauen',
+      chip_4:         '🤝 Offen für Collabs',
+      about_label:    'Über mich',
+      about_title:    'Entwickler.<br>Creator.<br>Problemlöser.',
+      about_desc:     "Ich bin Bora — 18-jähriger Freelance-Entwickler aus Deutschland. Ich baue Web-Projekte, automatisiere langweiligen Kram und betreibe nebenbei einen privaten Minecraft-Server. Wenn man's coden kann, hab ich's wahrscheinlich schon mal kaputt gemacht.",
+      stat_years:     'Jahre Coding',
+      stat_projects:  'Projekte',
+      stat_langs:     'Sprachen',
+      stat_ideas:     'Neue Ideen',
+      card_spec_title:'Spezialisierung',
+      card_spec_text: 'Backend-Systeme, Automatisierungsbots, Game-Server-Plugins und Full-Stack-Webentwicklung. Ich baue gerne Tools, die echte Probleme lösen.',
+      card_wip_title: 'Aktuell beschäftigt mit',
+      card_wip_text:  'Betrieb eines (noch) privaten Minecraft-Servers, Entwicklung eigener Plugins und Web-Projekte. Offen für Freelance-Aufträge und interessante Projekte.',
+      card_life_title:'Wenn nicht am Coden',
+      card_life_text: 'Zocken, rausgehen, mit Freunden abhängen — und um 2 Uhr nachts heimlich das nächste Sideprojekt planen.',
+      skills_label:   'Tech Stack',
+      skills_title:   'Sprachen &amp; Tools',
+      skills_desc:    'Alles, was ich einsetze, um Projekte zum Leben zu erwecken.',
+      skill_java_level:   'MC-Plugins',
+      skill_py_level:     'Automatisierung',
+      skill_js_level:     'Web &amp; Node.js',
+      skill_ts_level:     'Typsicheres Dev',
+      skill_html_level:   'Frontend',
+      skill_php_level:    'Web-Backend',
+      skill_sql_level:    'Datenbanken',
+      skill_docker_level: 'Container',
+      projects_label: 'Projekte',
+      projects_title: 'Projekte',
+      projects_desc:  'Dinge, auf die ich stolz bin.',
+      proj1_tag:  'Game Server · Privat',
+      proj1_name: '(Noch) Privater MC Server',
+      proj1_desc: 'Ein von Grund auf eigener Minecraft-Server — aktuell noch privat. Features: eigene Wirtschaft, Sign-Shop-System, Admin-Toolbox und ein modulares Mini-Game-Framework — alles mit handgefertigten Plugins.',
+      proj2_tag:  'Automatisierung',
+      proj2_name: 'Auto BTC Trader',
+      proj2_desc: 'Automatisierter Bitcoin-Trading-Bot auf Basis technischer Analyse und eigener Indikatoren. Läuft 24/7, analysiert Live-Marktdaten und führt Trades nach konfigurierbaren Strategien aus. Kein Schlaf nötig.',
+      proj3_tag:  'Bot',
+      proj3_name: 'MC AFK Bot',
+      proj3_desc: 'Ein Minecraft-Bot, der Accounts am Leben hält. Anti-AFK-Erkennung, einfaches Pathfinding, Chat-Simulation und serverspezifische Aktionen. Einmal starten, fertig.',
+      proj4_tag:  'Webentwicklung',
+      proj4_name: 'Web-Projekte',
+      proj4_desc: 'Eine Sammlung von Web-Projekten — darunter ein Minecraft-Aktienmarkt-Simulator, Browser-Games, nützliche Tools und mehr. Saubere Frontends, funktionale Backends.',
+      hobbies_label: 'Leben',
+      hobbies_title: 'Jenseits des Bildschirms',
+      hobby1_name: 'Coden',
+      hobby1_desc: 'Das nächste Ding bauen, das niemand gefragt hat, aber alle nutzen werden',
+      hobby2_name: 'Zocken',
+      hobby2_desc: 'Von Minecraft bis zum neuesten Trend — immer am Controller',
+      hobby3_name: 'Rausgehen',
+      hobby3_desc: 'Mal kurz Gras anfassen. Ist eigentlich gar nicht schlecht.',
+      hobby4_name: 'Freunde',
+      hobby4_desc: 'Treffen, chillen, Welteroberung planen (meistens Chillen)',
+      contact_label:    'Kontakt',
+      contact_title:    'Lass uns was bauen.',
+      contact_desc:     'Hast du ein Projekt im Kopf? Ich bin offen für Freelance-Arbeit, Collabs und interessante Probleme.',
+      portfolio_offer:  'Du willst auch ein Portfolio? Meld dich einfach!',
+      more_title:       '&amp; mehr',
+      more_desc:        'Discord-Bots, Automatisierungsskripte, kleinere Tools und Experimente — es wird immer irgendwas gebaut.',
+      footer_text:      '© 2026 Bora Duman aka. ImKirit — Mit Herzblut und Koffein gebaut.'
+    }
+  };
+
+  let currentLang = 'en';
+
+  // ─── Apply language with fade animation ───
+  function applyLang(lang) {
+    const els = document.querySelectorAll('[data-i18n]');
+    // fade out
+    els.forEach(el => el.classList.add('lang-out'));
+    setTimeout(() => {
+      // swap text
+      els.forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang] && translations[lang][key] !== undefined) {
+          el.innerHTML = translations[lang][key];
+        }
+        el.classList.remove('lang-out');
+        el.classList.add('lang-in');
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        els.forEach(el => el.classList.remove('lang-in'));
+      }));
+    }, 210);
+  }
+
+  // ─── Language toggle ───
+  const langBtn = document.getElementById('langBtn');
+  langBtn.addEventListener('click', () => {
+    currentLang = currentLang === 'en' ? 'de' : 'en';
+    langBtn.textContent = currentLang === 'en' ? '🇺🇸' : '🇩🇪';
+    applyLang(currentLang);
+  });
+
+  // ─── Discord copy ───
+  document.getElementById('discordBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText('ImKirit');
+    const orig = this.innerHTML;
+    this.textContent = 'Copied!';
+    setTimeout(() => { this.innerHTML = orig; }, 1500);
+  });
+
   // ─── Theme Switcher ───
   const html = document.documentElement;
   document.querySelectorAll('.theme-btn').forEach(btn => {
