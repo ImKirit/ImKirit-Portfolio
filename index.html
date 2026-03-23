@@ -968,6 +968,26 @@
       .hobbies-grid { grid-template-columns: 1fr; }
       .hero-floats { display: none; }
     }
+    /* ─── 3D Glass Card Tilt ─── */
+    .project-visual {
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+    }
+    .project-visual:hover {
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 30px rgba(120,170,255,0.08);
+    }
+    .project-visual .glass-reflection {
+      position: absolute;
+      inset: 0;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+    .project-visual:hover .glass-reflection { opacity: 1; }
+
   </style>
 </head>
 <body>
@@ -1172,6 +1192,7 @@
             <div class="project-bg" style="background: linear-gradient(135deg, rgba(60,140,60,0.28), rgba(20,80,30,0.18));">
               <span class="project-emoji">⛏️</span>
             </div>
+            <div class="glass-reflection"></div>
           </div>
           <div class="project-info">
             <div class="project-tag" data-i18n="proj1_tag">Game Server · Private</div>
@@ -1207,6 +1228,7 @@
             <div class="project-bg" style="background: linear-gradient(135deg, rgba(230,170,10,0.28), rgba(190,100,0,0.18));">
               <span class="project-emoji">₿</span>
             </div>
+            <div class="glass-reflection"></div>
           </div>
         </div>
 
@@ -1216,6 +1238,7 @@
             <div class="project-bg" style="background: linear-gradient(135deg, rgba(40,120,220,0.28), rgba(10,60,180,0.18));">
               <span class="project-emoji">🤖</span>
             </div>
+            <div class="glass-reflection"></div>
           </div>
           <div class="project-info">
             <div class="project-tag" data-i18n="proj3_tag">Bot</div>
@@ -1251,6 +1274,7 @@
             <div class="project-bg" style="background: linear-gradient(135deg, rgba(140,60,220,0.28), rgba(80,20,170,0.18));">
               <span class="project-emoji">🌐</span>
             </div>
+            <div class="glass-reflection"></div>
           </div>
         </div>
 
@@ -1765,6 +1789,24 @@
       if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
+
+  // ─── 3D Glass Card Tilt ───
+  (function() {
+    document.querySelectorAll('.project-visual').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rotX = (y - 0.5) * -12;
+        const rotY = (x - 0.5) * 12;
+        card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  })();
 </script>
 
 </body>
