@@ -455,6 +455,184 @@
       line-height: 1.65;
     }
 
+    /* ─── Terminal Animation ─── */
+    #terminal-section { padding: 40px 24px 0; }
+    #terminal-section .container { max-width: 780px; }
+
+    .terminal-label {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .terminal-window {
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(10, 10, 18, 0.88);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.35),
+                  0 0 80px rgba(100,100,200,0.06);
+      position: relative;
+    }
+
+    .terminal-window::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.008) 2px,
+        rgba(255,255,255,0.008) 4px
+      );
+      z-index: 2;
+    }
+
+    .terminal-chrome {
+      display: flex;
+      align-items: center;
+      padding: 11px 16px;
+      background: rgba(30, 30, 45, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      gap: 8px;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 7px;
+    }
+    .terminal-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .terminal-dot.red    { background: #ff5f57; }
+    .terminal-dot.yellow { background: #febc2e; }
+    .terminal-dot.green  { background: #28c840; }
+
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+      margin-right: 44px;
+    }
+
+    .terminal-body {
+      padding: 22px 24px 28px;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: #c8c8e0;
+      min-height: 380px;
+      max-height: 480px;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .terminal-ascii {
+      color: #7a7aff;
+      white-space: pre;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      letter-spacing: 0.06em;
+      margin-bottom: 18px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      text-shadow: 0 0 8px rgba(122,122,255,0.4);
+    }
+    .terminal-ascii.visible { opacity: 1; }
+
+    .terminal-boot {
+      color: #5eead4;
+      font-size: 0.82rem;
+      line-height: 1.8;
+    }
+    .terminal-boot .boot-ok {
+      color: #28c840;
+      font-weight: bold;
+    }
+    .terminal-boot .boot-label {
+      color: #9090c0;
+    }
+
+    .terminal-menu {
+      margin: 12px 0;
+      font-size: 0.88rem;
+      line-height: 2;
+    }
+    .terminal-menu-item {
+      color: #606080;
+      transition: color 0.3s;
+    }
+    .terminal-menu-item.active {
+      color: #7a7aff;
+      text-shadow: 0 0 6px rgba(122,122,255,0.3);
+    }
+    .terminal-menu-cursor {
+      color: #febc2e;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .terminal-menu-cursor.visible {
+      opacity: 1;
+    }
+
+    .terminal-line {
+      display: block;
+      white-space: pre-wrap;
+      overflow: hidden;
+      min-height: 1.75em;
+    }
+    .terminal-line .prompt {
+      color: #5eead4;
+    }
+    .terminal-line .cmd {
+      color: #c8c8e0;
+    }
+
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background: #7a7aff;
+      vertical-align: text-bottom;
+      animation: termBlink 0.9s step-end infinite;
+      margin-left: 1px;
+    }
+
+    @keyframes termBlink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0; }
+    }
+
+    .terminal-glow {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 80px;
+      background: radial-gradient(ellipse, rgba(100,100,255,0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .terminal-body {
+        padding: 16px 14px 22px;
+        font-size: 0.72rem;
+        min-height: 280px;
+        max-height: 400px;
+      }
+      .terminal-ascii {
+        font-size: 0.48rem;
+      }
+    }
+
     /* ─── Skills ─── */
     #skills { padding: 80px 24px; }
     #skills .container { text-align: center; }
@@ -898,6 +1076,32 @@
     </div>
   </section>
 
+  <!-- ─── Terminal Animation ─── -->
+  <section id="terminal-section">
+    <div class="container">
+      <p class="section-label terminal-label reveal" data-i18n="terminal_label">What I do</p>
+      <div class="terminal-window reveal">
+        <div class="terminal-chrome">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <div class="terminal-title">ImKirit &mdash; PowerShell</div>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <div class="terminal-boot" id="terminalBoot"></div>
+          <div class="terminal-ascii" id="terminalAscii"></div>
+          <div class="terminal-menu" id="terminalMenu"></div>
+          <div class="terminal-boot" id="terminalBoot2"></div>
+          <div id="terminalLines"></div>
+          <span class="terminal-cursor" id="terminalCursor"></span>
+          <div class="terminal-glow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── Skills ─── -->
   <section id="skills">
     <div class="container">
@@ -1177,6 +1381,7 @@
       card_wip_text:  'Running a (yet) private Minecraft server, developing custom plugins, and working on web projects. Open for freelance commissions and interesting projects.',
       card_life_title:'When not coding',
       card_life_text: 'Gaming, going outside, hanging out with friends, and secretly planning the next side project at 2am.',
+      terminal_label: 'What I do',
       skills_label:   'Tech Stack',
       skills_title:   'Languages &amp; Tools',
       skills_desc:    'Everything I use to bring projects to life.',
@@ -1247,6 +1452,7 @@
       card_wip_text:  'Betrieb eines (noch) privaten Minecraft-Servers, Entwicklung eigener Plugins und Web-Projekte. Offen für Freelance-Aufträge und interessante Projekte.',
       card_life_title:'Wenn nicht am Coden',
       card_life_text: 'Zocken, rausgehen, mit Freunden abhängen — und um 2 Uhr nachts heimlich das nächste Sideprojekt planen.',
+      terminal_label: 'Was ich mache',
       skills_label:   'Tech Stack',
       skills_title:   'Sprachen &amp; Tools',
       skills_desc:    'Alles, was ich einsetze, um Projekte zum Leben zu erwecken.',
@@ -1361,6 +1567,196 @@
   }, { threshold: 0.5 });
 
   document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
+
+  // ─── Terminal Animation ───
+  (function() {
+    const asciiArt =
+      '██╗███╗   ███╗██╗  ██╗██╗██████╗ ██╗████████╗\n' +
+      '██║████╗ ████║██║ ██╔╝██║██╔══██╗██║╚══██╔══╝\n' +
+      '██║██╔████╔██║█████╔╝ ██║██████╔╝██║   ██║   \n' +
+      '██║██║╚██╔╝██║██╔═██╗ ██║██╔══██╗██║   ██║   \n' +
+      '██║██║ ╚═╝ ██║██║  ██╗██║██║  ██║██║   ██║   \n' +
+      '╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝   ╚═╝';
+
+    const bootLines = [
+      { ok: '[BOOT]', text: ' Initializing system...' },
+      { ok: '[  OK]', text: ' Loading core modules' },
+      { ok: '[  OK]', text: ' Connecting to network' },
+      { ok: '[  OK]', text: ' System ready' },
+    ];
+
+    const menuItems = ['Projects', 'Skills', 'Contact'];
+
+    const boot2Lines = [
+      { ok: '[LOAD]', text: ' Fetching project data...' },
+      { ok: '[  OK]', text: ' Ready' },
+    ];
+
+    const commands = [
+      { prompt: 'PS C:\\Users\\ImKirit> ', cmd: 'git push origin main' },
+      { prompt: 'PS C:\\Users\\ImKirit> ', cmd: 'npm run build' },
+      { prompt: 'PS C:\\Users\\ImKirit> ', cmd: 'javac Server.java' },
+      { prompt: 'PS C:\\Users\\ImKirit> ', cmd: 'python crypto_trader.py --mode=auto' },
+      { prompt: 'PS C:\\Users\\ImKirit> ', cmd: "SELECT * FROM projects WHERE status = 'awesome';" },
+    ];
+
+    const bootEl   = document.getElementById('terminalBoot');
+    const asciiEl  = document.getElementById('terminalAscii');
+    const menuEl   = document.getElementById('terminalMenu');
+    const boot2El  = document.getElementById('terminalBoot2');
+    const linesEl  = document.getElementById('terminalLines');
+    const cursorEl = document.getElementById('terminalCursor');
+    const bodyEl   = document.getElementById('terminalBody');
+
+    let running = false;
+
+    async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    function scrollDown() { bodyEl.scrollTop = bodyEl.scrollHeight; }
+
+    async function typeText(container, text, speed) {
+      for (let i = 0; i < text.length; i++) {
+        container.textContent += text[i];
+        scrollDown();
+        await sleep(speed + Math.random() * 30);
+      }
+    }
+
+    async function showBootLines(el, lines) {
+      for (const line of lines) {
+        const row = document.createElement('div');
+        row.innerHTML = '<span class="boot-ok">' + line.ok + '</span><span class="boot-label">' + line.text + '</span>';
+        el.appendChild(row);
+        scrollDown();
+        await sleep(280 + Math.random() * 200);
+      }
+    }
+
+    async function runTerminal() {
+      if (running) return;
+      running = true;
+
+      // Clear everything
+      bootEl.innerHTML = '';
+      asciiEl.textContent = '';
+      asciiEl.classList.remove('visible');
+      menuEl.innerHTML = '';
+      boot2El.innerHTML = '';
+      linesEl.innerHTML = '';
+
+      // ── Phase 1: Boot sequence ──
+      await sleep(400);
+      await showBootLines(bootEl, bootLines);
+      await sleep(500);
+
+      // ── Phase 2: Big ASCII "IMKIRIT" ──
+      asciiEl.classList.add('visible');
+      const chars = asciiArt.split('');
+      for (let i = 0; i < chars.length; i++) {
+        asciiEl.textContent += chars[i];
+        if (i % 6 === 0) { scrollDown(); await sleep(4); }
+      }
+      scrollDown();
+      await sleep(900);
+
+      // ── Phase 3: Menu with cursor selecting "Projects" ──
+      const menuHTML = menuItems.map((item, i) => {
+        return '<div class="terminal-menu-item" id="menuItem' + i + '">' +
+               '<span class="terminal-menu-cursor" id="menuCursor' + i + '">▸ </span>' +
+               '[' + (i + 1) + '] ' + item + '</div>';
+      }).join('');
+      menuEl.innerHTML = menuHTML;
+      scrollDown();
+      await sleep(400);
+
+      // Cursor appears at item 0, moves down to items, then settles on 0 (Projects)
+      const cursorEls = menuItems.map((_, i) => document.getElementById('menuCursor' + i));
+      const itemEls = menuItems.map((_, i) => document.getElementById('menuItem' + i));
+
+      // Show cursor at first item
+      cursorEls[0].classList.add('visible');
+      itemEls[0].classList.add('active');
+      await sleep(500);
+
+      // Move to second
+      cursorEls[0].classList.remove('visible');
+      itemEls[0].classList.remove('active');
+      cursorEls[1].classList.add('visible');
+      itemEls[1].classList.add('active');
+      await sleep(400);
+
+      // Move to third
+      cursorEls[1].classList.remove('visible');
+      itemEls[1].classList.remove('active');
+      cursorEls[2].classList.add('visible');
+      itemEls[2].classList.add('active');
+      await sleep(350);
+
+      // Move back to first (Projects)
+      cursorEls[2].classList.remove('visible');
+      itemEls[2].classList.remove('active');
+      cursorEls[0].classList.add('visible');
+      itemEls[0].classList.add('active');
+      await sleep(300);
+
+      // "Select" it — flash effect
+      for (let f = 0; f < 3; f++) {
+        itemEls[0].style.color = '#fff';
+        await sleep(80);
+        itemEls[0].style.color = '';
+        await sleep(80);
+      }
+      itemEls[0].classList.add('active');
+      await sleep(500);
+
+      // ── Phase 4: Small boot ──
+      await showBootLines(boot2El, boot2Lines);
+      await sleep(400);
+
+      // ── Phase 5: Type commands ──
+      for (let c = 0; c < commands.length; c++) {
+        const lineEl = document.createElement('span');
+        lineEl.className = 'terminal-line';
+
+        const promptSpan = document.createElement('span');
+        promptSpan.className = 'prompt';
+        promptSpan.textContent = commands[c].prompt;
+        lineEl.appendChild(promptSpan);
+
+        const cmdSpan = document.createElement('span');
+        cmdSpan.className = 'cmd';
+        lineEl.appendChild(cmdSpan);
+
+        linesEl.appendChild(lineEl);
+        lineEl.appendChild(cursorEl);
+
+        await typeText(cmdSpan, commands[c].cmd, 35);
+        await sleep(500);
+
+        linesEl.appendChild(cursorEl);
+      }
+
+      // Pause, then loop
+      await sleep(4000);
+      running = false;
+      runTerminal();
+    }
+
+    // Start when terminal section scrolls into view
+    const termSection = document.getElementById('terminal-section');
+    let started = false;
+
+    const termObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !started) {
+          started = true;
+          runTerminal();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    if (termSection) termObs.observe(termSection);
+  })();
 
   // ─── Smooth scroll ───
   document.querySelectorAll('a[href^="#"]').forEach(a => {
