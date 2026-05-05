@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="silver">
+<html lang="en" data-theme="aurora" data-texture="dotted">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,6 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    (function(){
+      var d = document.documentElement;
+      d.setAttribute('data-theme',   localStorage.getItem('pf_theme')   || 'aurora');
+      d.setAttribute('data-texture', localStorage.getItem('pf_texture') || 'dotted');
+    })();
+  </script>
   <style>
     /* ─── Custom Properties ─── */
     :root {
@@ -988,9 +995,155 @@
     }
     .project-visual:hover .glass-reflection { opacity: 1; }
 
+    /* ═══════════════════════════════════════════
+       TEXTURES (added 05.05.26)
+    ═══════════════════════════════════════════ */
+    [data-texture="rough"] {
+      --bg:#0d0d10; --bg-2:#0d0d10;
+      --blob-1:transparent; --blob-2:transparent; --blob-3:transparent;
+      --glass-bg:rgba(22,22,26,0.86); --glass-border:rgba(255,255,255,0.06); --glass-shadow:rgba(0,0,0,0.55);
+      --text-1:#e8e8ec; --text-2:#a0a0a8; --text-3:#606068;
+      --silver:#888892; --silver-bright:#c8c8d0; --accent-glow:rgba(255,255,255,0.06);
+    }
+    [data-texture="rough"] body::before {
+      content:''; position:fixed; inset:0; z-index:60; pointer-events:none;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/></svg>");
+      opacity:0.22; mix-blend-mode:overlay;
+    }
+    [data-texture="rough"] .glass {
+      backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+      background:rgba(22,22,26,0.85); border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 6px 24px rgba(0,0,0,0.55);
+    }
+    [data-texture="rough"] .bg-blob { display:none; }
+    [data-texture="dotted"] {
+      --bg:#0e0e12; --bg-2:#0e0e12;
+      --blob-1:transparent; --blob-2:transparent; --blob-3:transparent;
+      --glass-bg:rgba(20,20,28,0.82); --glass-border:rgba(255,255,255,0.07); --glass-shadow:rgba(0,0,0,0.5);
+      --text-1:#e8e8f2; --text-2:#9898ac; --text-3:#5c5c70;
+      --silver:#9090b0; --silver-bright:#c0c0d8; --accent-glow:rgba(140,140,200,0.10);
+    }
+    [data-texture="dotted"] body {
+      background-image:radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size:20px 20px;
+    }
+    [data-texture="dotted"] .glass { backdrop-filter:blur(6px) !important; -webkit-backdrop-filter:blur(6px) !important; background:rgba(20,20,28,0.82); }
+    [data-texture="dotted"] .bg-blob { opacity:0.25; filter:blur(120px); }
+    [data-texture="paper"] {
+      --bg:#f3eee4; --bg-2:#ebe5d8;
+      --blob-1:rgba(210,180,140,0.30); --blob-2:rgba(190,170,140,0.22); --blob-3:rgba(220,200,170,0.25);
+      --glass-bg:rgba(255,252,243,0.78); --glass-border:rgba(120,90,60,0.18); --glass-shadow:rgba(80,60,30,0.08);
+      --text-1:#241c10; --text-2:#5c4a30; --text-3:#9c8868;
+      --silver:#7a5a30; --silver-bright:#503a18; --accent-glow:rgba(160,110,40,0.15);
+    }
+    [data-texture="paper"] body::before {
+      content:''; position:fixed; inset:0; z-index:60; pointer-events:none;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+      opacity:0.25; mix-blend-mode:multiply;
+    }
+    [data-texture="paper"] .glass { backdrop-filter:blur(6px) !important; -webkit-backdrop-filter:blur(6px) !important; }
+    [data-texture="mesh"] { --glass-bg:rgba(255,255,255,0.10); --glass-border:rgba(255,255,255,0.16); }
+    [data-texture="mesh"] body {
+      background:
+        radial-gradient(at 18% 22%, var(--blob-1) 0px, transparent 50%),
+        radial-gradient(at 82% 12%, var(--blob-2) 0px, transparent 55%),
+        radial-gradient(at 50% 78%, var(--blob-3) 0px, transparent 50%),
+        var(--bg);
+    }
+    [data-texture="mesh"] .bg-blob { display:none; }
+
+    /* ═══════════════════════════════════════════
+       BG EFFECTS LAYER (added 05.05.26)
+    ═══════════════════════════════════════════ */
+    #bg-effect-layer { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .bg-pulse-grid { position:absolute; inset:0; display:grid; grid-template-columns:repeat(20, 1fr); grid-template-rows:repeat(12, 1fr); align-items:center; justify-items:center; }
+    .bg-pulse-dot { width:3px; height:3px; border-radius:50%; background:var(--silver); opacity:0.06; animation:bgPulseDot 3s infinite ease-in-out; }
+    @keyframes bgPulseDot { 0%,100% { opacity:0.05; transform:scale(0.6); } 50% { opacity:0.5; transform:scale(1.4); box-shadow:0 0 12px var(--accent-glow); } }
+    .bg-orb-field { position:absolute; inset:0; }
+    .bg-orb { position:absolute; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--accent-glow), transparent 70%); opacity:0.18; animation:bgOrbDrift 8s infinite ease-in-out; }
+    @keyframes bgOrbDrift { 0%,100% { transform:translate(0,0) scale(1); } 25% { transform:translate(30px,-20px) scale(1.1); } 50% { transform:translate(-20px,25px) scale(0.9); } 75% { transform:translate(25px,15px) scale(1.05); } }
+    .bg-matrix-rain { position:absolute; inset:0; overflow:hidden; font-family:monospace; }
+    .bg-matrix-col { position:absolute; top:-100%; font-size:0.6rem; color:var(--silver); opacity:0.12; writing-mode:vertical-rl; letter-spacing:10px; animation:bgMatrixFall linear infinite; }
+    @keyframes bgMatrixFall { 0% { transform:translateY(-100%); } 100% { transform:translateY(100vh); } }
+    .bg-constellation-canvas { width:100%; height:100%; }
+    .bg-particle { position:absolute; border-radius:50%; background:var(--silver); opacity:0; animation:bgParticleDrift linear infinite; }
+    @keyframes bgParticleDrift { 0% { transform:translateY(0) translateX(0); opacity:0; } 10% { opacity:0.18; } 90% { opacity:0.18; } 100% { transform:translateY(-100vh) translateX(40px); opacity:0; } }
+    .bg-ripple-wrap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+    .bg-ripple { position:absolute; border-radius:50%; border:1px solid var(--silver); opacity:0; animation:bgRipple 5s infinite ease-out; }
+    @keyframes bgRipple { 0% { width:30px; height:30px; opacity:0.25; } 100% { width:900px; height:900px; opacity:0; } }
+
+    /* ═══════════════════════════════════════════
+       SETTINGS BUTTON + MODAL (added 05.05.26)
+    ═══════════════════════════════════════════ */
+    .settings-btn {
+      display:flex; align-items:center; justify-content:center;
+      width:34px; height:34px; border-radius:10px;
+      border:1px solid var(--glass-border); background:var(--glass-bg);
+      backdrop-filter:blur(10px); cursor:pointer; padding:0;
+      font-size:1rem; line-height:1; color:var(--text-2);
+      transition:all 0.3s ease;
+    }
+    .settings-btn:hover { color:var(--text-1); transform:rotate(60deg) scale(1.08); background:rgba(255,255,255,0.16); }
+
+    .pf-modal-overlay {
+      position:fixed; inset:0; z-index:500;
+      background:rgba(0,0,0,0.60);
+      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+      display:none; align-items:center; justify-content:center; padding:20px;
+    }
+    .pf-modal-overlay.open { display:flex; }
+    .pf-modal {
+      width:100%; max-width:560px;
+      border-radius:24px; padding:34px 36px 32px;
+      position:relative; max-height:90vh; overflow-y:auto;
+      animation:pfModalPop 0.42s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes pfModalPop { from { opacity:0; transform:scale(0.86) translateY(28px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    .pf-modal-close {
+      position:absolute; top:16px; right:16px;
+      width:32px; height:32px; border-radius:9px;
+      border:1px solid var(--glass-border); background:var(--glass-bg);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.88rem; color:var(--text-3);
+      cursor:pointer; transition:all 0.25s ease; line-height:1;
+    }
+    .pf-modal-close:hover { color:var(--text-1); background:rgba(255,255,255,0.1); }
+    .pf-modal-title { font-family:'Syne', sans-serif; font-weight:800; font-size:1.55rem; letter-spacing:-0.03em; color:var(--text-1); margin-bottom:5px; }
+    .pf-modal-sub { font-size:0.85rem; color:var(--text-3); font-weight:300; margin-bottom:22px; }
+
+    .pf-tabs { display:flex; gap:4px; padding:4px; margin-bottom:22px; border-radius:14px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); overflow-x:auto; }
+    .pf-tab-btn { flex:1 0 auto; padding:9px 14px; border-radius:11px; border:none; background:transparent; color:var(--text-2); font-family:'Outfit', sans-serif; font-size:0.85rem; font-weight:500; cursor:pointer; transition:all 0.25s ease; white-space:nowrap; }
+    .pf-tab-btn:hover { color:var(--text-1); }
+    .pf-tab-btn.active { background:var(--glass-bg); color:var(--text-1); box-shadow:0 2px 10px var(--glass-shadow); }
+    .pf-pane { display:none; }
+    .pf-pane.active { display:block; }
+
+    .pf-chip-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:10px; }
+    .pf-chip { position:relative; padding:14px 12px; border-radius:14px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); cursor:pointer; transition:all 0.25s ease; text-align:center; font-size:0.8rem; color:var(--text-2); }
+    .pf-chip:hover { color:var(--text-1); border-color:var(--silver); transform:translateY(-2px); }
+    .pf-chip.active { color:var(--text-1); border-color:var(--silver); background:var(--accent-glow); }
+    .pf-chip-swatch { display:block; width:100%; height:36px; border-radius:9px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.08); }
+    .pf-chip[data-theme="silver"] .pf-chip-swatch { background:linear-gradient(135deg,#dcdcec,#a0a0c0); }
+    .pf-chip[data-theme="night"]  .pf-chip-swatch { background:linear-gradient(135deg,#1a1a3e,#080814); }
+    .pf-chip[data-theme="ocean"]  .pf-chip-swatch { background:linear-gradient(135deg,#0040a0,#0090c8); }
+    .pf-chip[data-theme="aurora"] .pf-chip-swatch { background:linear-gradient(135deg,#500fa0,#107060); }
+    .pf-chip[data-theme="ember"]  .pf-chip-swatch { background:linear-gradient(135deg,#c02808,#e07800); }
+    .pf-chip[data-tex="liquid-glass"] .pf-chip-swatch { background:linear-gradient(135deg, rgba(255,255,255,0.4), rgba(180,200,255,0.25)); backdrop-filter:blur(6px); }
+    .pf-chip[data-tex="rough"]        .pf-chip-swatch { background:#1a1a1c; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>"); }
+    .pf-chip[data-tex="dotted"]       .pf-chip-swatch { background:#0e0e12; background-image:radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px); background-size:8px 8px; }
+    .pf-chip[data-tex="paper"]        .pf-chip-swatch { background:#f3eee4; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='1.2'/></filter><rect width='100%25' height='100%25' filter='url(%23p)' opacity='0.4'/></svg>"); }
+    .pf-chip[data-tex="mesh"]         .pf-chip-swatch { background:radial-gradient(at 20% 20%, #5a3, transparent 50%), radial-gradient(at 80% 30%, #a3f, transparent 55%), radial-gradient(at 50% 80%, #f53, transparent 50%), #111; }
+    .pf-bg-list { display:flex; flex-direction:column; gap:6px; }
+    .pf-bg-list-btn { padding:11px 14px; border-radius:12px; border:1px solid transparent; background:rgba(255,255,255,0.04); color:var(--text-2); font-family:'Outfit', sans-serif; font-size:0.88rem; font-weight:400; text-align:left; cursor:pointer; transition:all 0.2s; }
+    .pf-bg-list-btn:hover { background:rgba(255,255,255,0.10); color:var(--text-1); }
+    .pf-bg-list-btn.active { background:var(--accent-glow); color:var(--text-1); font-weight:600; border-color:var(--silver); }
+
   </style>
 </head>
 <body>
+
+<!-- ─── BG Effect Layer (added 05.05.26) ─── -->
+<div id="bg-effect-layer" aria-hidden="true"></div>
 
 <!-- ─── Animated Background ─── -->
 <div class="bg-canvas">
@@ -1011,13 +1164,7 @@
       <li><a href="#hobbies" data-i18n="nav_life">Life</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
     </ul>
-    <div class="theme-switcher glass">
-      <button class="theme-btn active" data-theme="silver" title="Silver"></button>
-      <button class="theme-btn" data-theme="night"  title="Night"></button>
-      <button class="theme-btn" data-theme="ocean"  title="Ocean"></button>
-      <button class="theme-btn" data-theme="aurora" title="Aurora"></button>
-      <button class="theme-btn" data-theme="ember"  title="Ember"></button>
-    </div>
+    <button class="settings-btn" id="pfSettingsBtn" title="Preferences" aria-label="Preferences">⚙</button>
     <button class="lang-btn" id="langBtn" title="Switch language">🇺🇸</button>
   </nav>
 
@@ -1555,15 +1702,8 @@
     applyLang(currentLang);
   });
 
-  // ─── Theme Switcher ───
+  // ─── Theme Switcher (now via Preferences modal — see bottom of file) ───
   const html = document.documentElement;
-  document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      html.setAttribute('data-theme', btn.dataset.theme);
-      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
 
   // ─── Intersection Observer: reveal ───
   const revealObs = new IntersectionObserver(entries => {
@@ -1808,6 +1948,171 @@
       });
     });
   })();
+</script>
+
+<!-- ─── Preferences Modal (added 05.05.26) ─── -->
+<div class="pf-modal-overlay" id="pfSettingsModal">
+  <div class="pf-modal glass">
+    <button class="pf-modal-close" id="pfSettingsClose" aria-label="Close">✕</button>
+    <h2 class="pf-modal-title">Preferences</h2>
+    <p class="pf-modal-sub">Personalize the look and feel.</p>
+    <div class="pf-tabs" id="pfTabs">
+      <button class="pf-tab-btn active" data-tab="colors">Colors</button>
+      <button class="pf-tab-btn" data-tab="bg">BG Effects</button>
+      <button class="pf-tab-btn" data-tab="texture">Texture</button>
+    </div>
+    <div class="pf-pane active" data-pane="colors">
+      <div class="pf-chip-grid" id="pfChipsTheme">
+        <div class="pf-chip" data-theme="aurora"><span class="pf-chip-swatch"></span>Aurora</div>
+        <div class="pf-chip" data-theme="night"><span class="pf-chip-swatch"></span>Night</div>
+        <div class="pf-chip" data-theme="ocean"><span class="pf-chip-swatch"></span>Ocean</div>
+        <div class="pf-chip" data-theme="ember"><span class="pf-chip-swatch"></span>Ember</div>
+        <div class="pf-chip" data-theme="silver"><span class="pf-chip-swatch"></span>Silver</div>
+      </div>
+    </div>
+    <div class="pf-pane" data-pane="bg">
+      <div class="pf-bg-list" id="pfBgList">
+        <button class="pf-bg-list-btn" data-fx="off">Off</button>
+        <button class="pf-bg-list-btn" data-fx="pulse-grid">Pulse Grid</button>
+        <button class="pf-bg-list-btn" data-fx="orbs">Floating Orbs</button>
+        <button class="pf-bg-list-btn" data-fx="matrix">Matrix Rain</button>
+        <button class="pf-bg-list-btn" data-fx="constellation">Constellation</button>
+        <button class="pf-bg-list-btn" data-fx="particles">Particle Drift</button>
+        <button class="pf-bg-list-btn" data-fx="ripples">Ripples</button>
+      </div>
+    </div>
+    <div class="pf-pane" data-pane="texture">
+      <p class="pf-modal-sub" style="margin-top:-6px">Surface texture for the whole site.</p>
+      <div class="pf-chip-grid" id="pfChipsTexture">
+        <div class="pf-chip" data-tex="liquid-glass"><span class="pf-chip-swatch"></span>Liquid Glass</div>
+        <div class="pf-chip" data-tex="rough"><span class="pf-chip-swatch"></span>Rough</div>
+        <div class="pf-chip" data-tex="dotted"><span class="pf-chip-swatch"></span>Dotted</div>
+        <div class="pf-chip" data-tex="paper"><span class="pf-chip-swatch"></span>Paper</div>
+        <div class="pf-chip" data-tex="mesh"><span class="pf-chip-swatch"></span>Mesh</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var html = document.documentElement;
+  function applySetting(attr, val, key, prop) {
+    html.setAttribute(attr, val);
+    localStorage.setItem(key, val);
+    document.querySelectorAll('.pf-chip[data-' + prop + ']').forEach(function(c){
+      c.classList.toggle('active', c.dataset[prop] === val);
+    });
+  }
+  function initChips(sel, attr, key, prop) {
+    var current = html.getAttribute(attr);
+    document.querySelectorAll(sel + ' .pf-chip').forEach(function(c){
+      c.classList.toggle('active', c.dataset[prop] === current);
+      c.addEventListener('click', function(){ applySetting(attr, c.dataset[prop], key, prop); });
+    });
+  }
+  initChips('#pfChipsTheme',   'data-theme',   'pf_theme',   'theme');
+  initChips('#pfChipsTexture', 'data-texture', 'pf_texture', 'tex');
+
+  var modal = document.getElementById('pfSettingsModal');
+  document.getElementById('pfSettingsBtn').addEventListener('click', function(){ modal.classList.add('open'); });
+  document.getElementById('pfSettingsClose').addEventListener('click', function(){ modal.classList.remove('open'); });
+  modal.addEventListener('click', function(e){ if (e.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') modal.classList.remove('open'); });
+  document.querySelectorAll('#pfTabs .pf-tab-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#pfTabs .pf-tab-btn').forEach(function(x){ x.classList.toggle('active', x === b); });
+      document.querySelectorAll('.pf-pane').forEach(function(p){ p.classList.toggle('active', p.dataset.pane === b.dataset.tab); });
+    });
+  });
+
+  /* BG Effects */
+  var bgLayer = document.getElementById('bg-effect-layer');
+  var currentBgEffect = localStorage.getItem('pf_bg_effect') || 'constellation';
+  var bgCleanup = null;
+  var bgEffects = {
+    'off': function(){ bgLayer.innerHTML = ''; },
+    'pulse-grid': function(){
+      var h = '<div class="bg-pulse-grid">';
+      for (var i = 0; i < 240; i++) {
+        var row = Math.floor(i/20), col = i%20;
+        var dist = Math.sqrt(Math.pow(row-6,2)+Math.pow(col-10,2));
+        h += '<div class="bg-pulse-dot" style="animation-delay:' + (dist*0.2).toFixed(2) + 's"></div>';
+      }
+      bgLayer.innerHTML = h + '</div>';
+    },
+    'orbs': function(){
+      var h = '<div class="bg-orb-field">'; var sizes = [200,150,280,120,180,240,100,160];
+      for (var i = 0; i < 8; i++){
+        var s=sizes[i], x=5+Math.random()*85, y=5+Math.random()*85;
+        var dur=(8+Math.random()*10).toFixed(1), del=(-Math.random()*8).toFixed(1);
+        h += '<div class="bg-orb" style="width:'+s+'px;height:'+s+'px;left:'+x+'%;top:'+y+'%;animation-duration:'+dur+'s;animation-delay:'+del+'s"></div>';
+      }
+      bgLayer.innerHTML = h + '</div>';
+    },
+    'matrix': function(){
+      var chars='01₿Ξ$€♦◊∞<>{}[]'; var h = '<div class="bg-matrix-rain">';
+      for (var i=0; i<40; i++){
+        var t=''; for (var j=0; j<30; j++) t += chars[Math.floor(Math.random()*chars.length)];
+        var x=(i*2.5+Math.random()*1.5).toFixed(1);
+        var dur=(6+Math.random()*12).toFixed(1), del=(-Math.random()*10).toFixed(1);
+        h += '<div class="bg-matrix-col" style="left:'+x+'%;animation-duration:'+dur+'s;animation-delay:'+del+'s">'+t+'</div>';
+      }
+      bgLayer.innerHTML = h + '</div>';
+    },
+    'constellation': function(){
+      var canvas = document.createElement('canvas'); canvas.className = 'bg-constellation-canvas';
+      bgLayer.innerHTML = ''; bgLayer.appendChild(canvas);
+      var ctx = canvas.getContext('2d'); var w,h,pts=[];
+      function resize(){ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
+      resize(); var rh = function(){ resize(); }; window.addEventListener('resize', rh);
+      for (var i=0; i<60; i++) pts.push({ x:Math.random()*w, y:Math.random()*h, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4, r:1.5+Math.random()*2 });
+      var style = getComputedStyle(document.documentElement);
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        var col = style.getPropertyValue('--silver').trim() || '#a0a0c0';
+        pts.forEach(function(p){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>w)p.vx*=-1; if(p.y<0||p.y>h)p.vy*=-1; });
+        for (var i=0; i<pts.length; i++) for (var j=i+1; j<pts.length; j++) {
+          var dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+          if (d < 160) { ctx.beginPath(); ctx.strokeStyle=col; ctx.globalAlpha=(1-d/160)*0.12; ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); }
+        }
+        ctx.globalAlpha=0.25; ctx.fillStyle=col;
+        pts.forEach(function(p){ ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); });
+        ctx.globalAlpha=1;
+        bgLayer._raf = requestAnimationFrame(draw);
+      }
+      draw();
+      bgCleanup = function(){ cancelAnimationFrame(bgLayer._raf); window.removeEventListener('resize', rh); };
+    },
+    'particles': function(){
+      var h = '';
+      for (var i=0; i<50; i++){
+        var x=Math.random()*100, dur=(8+Math.random()*14).toFixed(1);
+        var del=(-Math.random()*12).toFixed(1), sz=(2+Math.random()*3).toFixed(1);
+        h += '<div class="bg-particle" style="left:'+x+'%;width:'+sz+'px;height:'+sz+'px;animation-duration:'+dur+'s;animation-delay:'+del+'s;bottom:-10px"></div>';
+      }
+      bgLayer.innerHTML = h;
+    },
+    'ripples': function(){
+      var h = '<div class="bg-ripple-wrap">';
+      for (var i=0; i<5; i++) h += '<div class="bg-ripple" style="animation-delay:'+(i*1)+'s"></div>';
+      bgLayer.innerHTML = h + '</div>';
+    }
+  };
+  function setBgEffect(id){
+    if (bgCleanup) { bgCleanup(); bgCleanup = null; }
+    if (bgLayer._raf) { cancelAnimationFrame(bgLayer._raf); bgLayer._raf = null; }
+    currentBgEffect = id;
+    localStorage.setItem('pf_bg_effect', id);
+    (bgEffects[id] || bgEffects['off'])();
+    document.querySelectorAll('.pf-bg-list-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.fx === id); });
+  }
+  document.querySelectorAll('.pf-bg-list-btn').forEach(function(b){
+    b.addEventListener('click', function(){ setBgEffect(b.dataset.fx); });
+  });
+  setBgEffect(currentBgEffect);
+})();
 </script>
 
 <script src="/cookie-consent.js"></script>
